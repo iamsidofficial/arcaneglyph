@@ -4,8 +4,10 @@ type Point = [
 
 type Bounds = [number, number, number, number]
 
-
-
+type Options = {
+  strokeWidth: number
+  stroke: string
+}
 
 
 

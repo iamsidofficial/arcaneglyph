@@ -20,17 +20,20 @@ const getRectangleDimesions = (bounds: Bounds) : Bounds => {
 }
 
 
-const getShape = (roughGenerator: RoughGenerator, shapeType:string, bounds: Bounds, options=defaultShapeOptions) => {
+const getShape = (roughGenerator: RoughGenerator, shapeType:string, bounds: Bounds, options: Options) => {
   let shape;
+
+
+  const shapeOptions = {...defaultShapeOptions, ...options}
   if(shapeType === 'line') {
-    shape = roughGenerator.line(...bounds, options)
+    shape = roughGenerator.line(...bounds, shapeOptions)
   } else {
     if(shapeType === 'rectangle') {
       const dimensions = getRectangleDimesions(bounds)
-      shape = roughGenerator.rectangle(...dimensions, options)
+      shape = roughGenerator.rectangle(...dimensions, shapeOptions)
     } else if(shapeType === 'circle') {
       const {x, y, diameter} = getCircleDimensions(bounds)
-      shape = roughGenerator.circle(x, y, diameter, options)
+      shape = roughGenerator.circle(x, y, diameter, shapeOptions)
     }
   }
 

@@ -1,13 +1,8 @@
 import useDraw from "../hooks/useDraw"
 import { useAppContext } from "./CanvasApp"
 
-const options = {
-  strokeWidth: 2,
-  stroke: "#000",
-}
-
 const Canvas = () => {
-  const { activeToolName } = useAppContext()
+  const { activeToolName, options } = useAppContext()
   const { canvasRef, handleMouseDown } = useDraw({ activeToolName, options })
 
   return (

@@ -33,7 +33,7 @@ const useDraw = ({activeToolName, options} : Draw) => {
         color: options.stroke
       }
     } else if(activeDrawing.type === 'shape') {
-      const shape = ShapeTool.getShape(roughGenerator, activeDrawing.subtype, activeDrawing.bounds)
+      const shape = ShapeTool.getShape(roughGenerator, activeDrawing.subtype, activeDrawing.bounds, options)
       if(!shape) return
       return {
         type: 'shape',
@@ -69,7 +69,7 @@ const useDraw = ({activeToolName, options} : Draw) => {
     const {clientX : x, clientY: y} = e
 
     if(activeTool?.type === 'eraser') {
-      erase([setDrawingData, [x, y], options.strokeWidth * 10])
+      erase([setDrawingData, [x, y], 20])
       
       return
     }
@@ -99,7 +99,6 @@ const useDraw = ({activeToolName, options} : Draw) => {
 
 
   useEffect(() => {
-    console.log('inside effect')
     if(!canvasRef.current) return
     const ctx = canvasRef.current.getContext('2d')
     if(!ctx) return
