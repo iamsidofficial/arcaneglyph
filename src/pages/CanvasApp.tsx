@@ -1,5 +1,5 @@
 import Canvas from "./Canvas"
-import Tooltip from "../components/Tooltip"
+import Toolbar from "../components/Toolbar"
 import { createContext, useContext, useState } from "react"
 import { availableOptions } from "../data/toolOptions"
 
@@ -26,7 +26,7 @@ const CanvasApp = () => {
       value={{ activeToolName, setActiveToolName, options, setOptions }}
     >
       <Canvas />
-      <Tooltip />
+      <Toolbar />
     </AppContext.Provider>
   )
 }

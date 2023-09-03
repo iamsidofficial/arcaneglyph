@@ -43,30 +43,41 @@ const useDraw = ({activeToolName, options} : Draw) => {
       }
     }
   }
-  
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    setIsDrawing(true)
 
+  const handlePointerDown = (point: Point) => {
+    setIsDrawing(true)
+    const [x, y] = point
     if(activeTool?.type === 'pencil') {
       setActiveDrawing({
         type: 'path',
-        points: [[e.clientX, e.clientY]]
+        points: [[x, y]]
       })
     } else if (activeTool?.type === 'shape') {
       setActiveDrawing({
         type: 'shape',
         subtype: activeToolName,
-        bounds: [e.clientX, e.clientY, e.clientX, e.clientY]
+        bounds: [x, y, x, y]
       }) 
-    } else if (activeTool?.type === 'eraser') {
+    } 
+  }
 
-    }
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const touches = e.changedTouches
+    if(touches.length > 1) return
+    const {clientX: x, clientY: y} = touches[0]
 
+    handlePointerDown([x, y])
   }
   
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    handlePointerDown([e.clientX, e.clientY])
+
+  }
+
+  const handlePointerMove = (point: Point) => {
+
     if(!isDrawing) return
-    const {clientX : x, clientY: y} = e
+    const [x, y] = point
 
     if(activeTool?.type === 'eraser') {
       erase([setDrawingData, [x, y], 20])
@@ -92,7 +103,20 @@ const useDraw = ({activeToolName, options} : Draw) => {
 
   }
 
-  const handleMouseUp = () => {
+  const handleTouchMove = (e: TouchEvent) => {
+    const touches = e.changedTouches
+    if(touches.length > 1) return
+    const {clientX: x, clientY: y} = touches[0]
+
+    handlePointerMove([x, y])
+
+  }
+  
+  const handleMouseMove = (e: MouseEvent) => {
+    handlePointerMove([e.clientX, e.clientY])
+  }
+
+  const handlePointerUp = () => {
     setIsDrawing(false)
   }
 
@@ -121,10 +145,14 @@ const useDraw = ({activeToolName, options} : Draw) => {
   useEffect(() => {
     if(isDrawing) {
       window.addEventListener('mousemove', handleMouseMove)
-      window.addEventListener('mouseup', handleMouseUp)
+      window.addEventListener('mouseup', handlePointerUp)
+      window.addEventListener('touchmove', handleTouchMove)
+      window.addEventListener('touchend', handlePointerUp)
       const clearListeners = () => {
         window.removeEventListener('mousemove', handleMouseMove)
-        window.removeEventListener('mouseup', handleMouseUp)
+        window.removeEventListener('mouseup', handlePointerUp)
+        window.removeEventListener('touchmove', handleTouchMove)
+        window.removeEventListener('touchend', handlePointerUp)
       }
   
       return clearListeners
@@ -133,7 +161,7 @@ const useDraw = ({activeToolName, options} : Draw) => {
 
   }, [isDrawing])
 
-  return {canvasRef, handleMouseDown, handleMouseMove, handleMouseUp}
+  return {canvasRef, handleMouseDown, handleTouchStart}
 
 }
 

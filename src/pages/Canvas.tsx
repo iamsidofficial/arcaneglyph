@@ -3,7 +3,7 @@ import { useAppContext } from "./CanvasApp"
 
 const Canvas = () => {
   const { activeToolName, options } = useAppContext()
-  const { canvasRef, handleMouseDown } = useDraw({ activeToolName, options })
+  const { canvasRef, handleMouseDown, handleTouchStart } = useDraw({ activeToolName, options })
 
   return (
     <div>
@@ -12,6 +12,7 @@ const Canvas = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onMouseDown={(e) => handleMouseDown(e)}
+        onTouchStart={(e) => handleTouchStart(e)}
       ></canvas>
     </div>
   )

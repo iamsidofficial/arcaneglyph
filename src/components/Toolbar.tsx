@@ -64,7 +64,7 @@ const StrokeOptionsModal = () => {
   )
 
   return (
-    <div className="absolute bg-white p-4 rounded-lg flex flex-col gap-2 shadow-xl">
+    <div className="absolute right-0 mt-3 sm:right-auto bg-white p-4 rounded-lg flex flex-col gap-2 shadow-xl">
       <div>
         <div className="text-xs mb-2 text-gray-800">Stroke</div>
         <div className="flex gap-1 mt-1">{strokeColorEls}</div>
@@ -83,7 +83,7 @@ const StrokeOptions = () => {
 
   return (
     <div
-      className="absolute left-[100%] ml-5 bg-white  rounded-full border"
+      className="absolute left-[100%] ml-2 sm:ml-5 bg-white  rounded-full border"
       onClick={() => setModalActive((prev) => !prev)}
     >
       <div
